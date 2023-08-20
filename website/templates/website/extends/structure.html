@@ -1,9 +1,13 @@
 {% extends 'website/extends/base.html' %}
 
 {% block base %}
-This is in the structure
-
-{% block structure %}
+{% include 'website/includes/navbar.html' %}
+<div class="container">
+    {% block structure %}
     
-{% endblock structure %}
+    {% endblock structure %}
+</div>
+<!-- <div class="m-4"></div>
+{% include 'website/includes/footer.html' %} -->
+
 {% endblock base %}
