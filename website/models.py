@@ -26,7 +26,7 @@ class Phone(models.Model):
     ram = models.IntegerField(blank=True, null=True)
     rom = models.IntegerField(blank=True, null=True)
     battery = models.IntegerField(blank=True, null=True)
-    screenSize = models.IntegerField(blank=True, null=True)
+    screenSize = models.DecimalField(blank=True, null=True,max_digits=3, decimal_places=2 )
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -42,7 +42,7 @@ class Protector(models.Model):
     type = models.ForeignKey(ProtectorType, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.phone.name
+        return f"{self.phone.name} | {self.type}"
 
 
 

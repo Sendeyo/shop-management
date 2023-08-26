@@ -1,3 +1,7 @@
-.nav-link .active{
-    color: yellow;
+.nav-link{
+    color: rgb(16, 88, 16);
+}
+
+.nav-link.active{
+    font-size: large;
 }
