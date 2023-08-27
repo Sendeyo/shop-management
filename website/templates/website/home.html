@@ -2,10 +2,6 @@
 
 {% block structure %}
 
-This is the home page
-
-{% for phone in phones %}
-    {{ phone }}
-{% endfor %}
+{% include 'website/components/phonesTable.html' %}
     
 {% endblock structure %}

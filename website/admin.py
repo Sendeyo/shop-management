@@ -36,6 +36,7 @@ class ProtectorAdmin(admin.ModelAdmin):
     list_display = ("phone","type", "quantity", "buyingPrice", "sellingPrice")
     list_filter = ["type"]
     # search_fields = ["type"]
+    # ordering = ("some")
 
 
     actions = ["clear_stock"]

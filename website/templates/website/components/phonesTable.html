@@ -1,0 +1,24 @@
+<div class="mt-2">
+    <table class="table table-sm table-info">
+        <thead>
+            <tr>
+                <th></th>
+                <th>NAME</th>
+                <th>MODEL</th>
+                <th>UNITS</th>
+                <th>MODEL</th>
+                <th>UNITS</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for phone in phones %}
+            <tr>
+                <th></th>
+                <td>{{ phone.name }}</td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>

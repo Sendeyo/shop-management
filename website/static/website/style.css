@@ -5,3 +5,16 @@
 .nav-link.active{
     font-size: large;
 }
+
+.phone{
+    background-color: #b4e0ff;
+}
+
+.table-sm{
+    padding: 0px;
+    margin: 0px;
+}
+td{
+    padding: 0px;
+    margin: 0px;
+}
