@@ -1,0 +1,31 @@
+<div class="row mt-2">
+    {% for case in cases %}
+
+    {% if case.quantity > 0 %}
+
+    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 mt-2">
+        <div class="card case p-2">
+            <div class="phone-image">
+
+            </div>
+            <div class="h5 text-center"><strong>{{ case.phone.name }}</strong> - <small class="text-body-primary">{{ case.type }} Case</small> <span class="float-end badge rounded-pill bg-dark">{{ case.quantity }}</span></div>
+            <p class="small pb-0 mb-0">
+                {% if case.location %}
+                <span class="m-auto text-muted"> {{ case.location }}</span>
+                {% endif %}
+            </p>
+            <div class="clearfix">
+                <div class="float-end"><span class="h5">{{ case.sellingPrice }} KSH</span></div>
+            </div>
+        <div class="row m-auto">
+            <div class="col"><button class="btn btn-sm btn-outline-success ">To_Cart</button></div>
+            <div class="col"><button class="btn btn-sm btn-outline-primary">view</button></div>
+            <div class="col"><button class="btn btn-sm btn-outline-success">sell</button></div>
+        </div>
+        </div>
+    </div>
+        
+    {% endif %}
+        
+    {% endfor %}
+</div>

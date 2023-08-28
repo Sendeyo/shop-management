@@ -47,6 +47,7 @@ class Protector(models.Model):
     buyingPrice = models.IntegerField(blank=True, null=True)
     sellingPrice = models.IntegerField(blank=True, null=True)
     type = models.ForeignKey(ProtectorType, on_delete=models.CASCADE)
+    location = models.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self):
         return f"{self.phone.name} | {self.type}"
@@ -59,6 +60,7 @@ class Case(models.Model):
     buyingPrice = models.IntegerField(blank=True, null=True)
     sellingPrice = models.IntegerField(blank=True, null=True)
     type = models.ForeignKey(CaseType, on_delete=models.CASCADE)
+    location = models.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self):
         return self.phone.name

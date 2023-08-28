@@ -11,6 +11,19 @@
     background-color: #b4e0ff90;
 }
 
+.phone-modal{
+    /* background-color: #b4e0ff; */
+    background-color: #e1eef6;
+}
+
+.protector{
+    background-color: #b4ffc349;
+}
+
+.case{
+    background-color: #b4baff50;
+}
+
 .table-sm{
     padding: 0px;
     margin: 0px;
