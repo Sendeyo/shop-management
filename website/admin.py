@@ -8,7 +8,7 @@ admin.site.site_title = "ERICO ELECTRONICS"
 
 # Configure model looks from the db
 class PhoneAdmin(admin.ModelAdmin):
-    list_display = ("name", "model", "quantity", "buyingPrice", "sellingPrice", "ram", "rom")
+    list_display = ("name", "model", "quantity", "buyingPrice", "sellingPrice")
     search_fields = ("name", "model", "screenSize")
     actions = ["culculate_discount", "out_of_stock"]
 

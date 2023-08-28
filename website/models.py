@@ -17,17 +17,24 @@ class CaseType(models.Model):
 
 
 class Phone(models.Model):
+    company = models.CharField(max_length=100, blank=True)
     name = models.CharField(max_length=200)
     model = models.CharField(max_length=100)
+    
+    cameras = models.CharField(max_length=300, blank=True, null=True)
+    memory = models.CharField(max_length=300, blank=True, null=True)
+    screen = models.CharField(max_length=300, blank=True, null=True)
+    battery = models.IntegerField(blank=True, null=True)
+    
+
     quantity = models.IntegerField(default=0)
     buyingPrice = models.IntegerField()
     sellingPrice = models.IntegerField()
     discountPrice = models.IntegerField(blank=True, null=True)
-    ram = models.IntegerField(blank=True, null=True)
-    rom = models.IntegerField(blank=True, null=True)
-    battery = models.IntegerField(blank=True, null=True)
-    screenSize = models.DecimalField(blank=True, null=True,max_digits=3, decimal_places=2 )
-    description = models.TextField(blank=True, null=True)
+
+    other = models.TextField(blank=True, null=True)
+
+    location = models.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self):
         return self.name

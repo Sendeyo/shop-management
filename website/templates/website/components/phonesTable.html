@@ -1,13 +1,14 @@
 <div class="mt-2">
-    <table class="table table-sm table-info">
+    <table class="table table-sm">
         <thead>
             <tr>
                 <th></th>
                 <th>NAME</th>
                 <th>MODEL</th>
+                <th>PRICE</th>
+                <th>DISCOUNT</th>
                 <th>UNITS</th>
-                <th>MODEL</th>
-                <th>UNITS</th>
+                <th>ACTIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +16,14 @@
             <tr>
                 <th></th>
                 <td>{{ phone.name }}</td>
+                <td>{{ phone.model }}</td>
+                <td>{{ phone.sellingPrice }}</td>
+                <td>{{ phone.discountPrice }}</td>
+                <td>{{ phone.quantity }}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-success">OPEN</button>
+                    <button class="btn btn-sm btn-outline-success">SELL</button>
+                </td>
             </tr>
 
             {% endfor %}
