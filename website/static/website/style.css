@@ -32,3 +32,8 @@ td{
     padding: 0px;
     margin: 0px;
 }
+
+.search{
+    /* min-width: 400px; */
+    width: 200%;
+}
