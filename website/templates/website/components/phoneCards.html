@@ -23,17 +23,17 @@
         <div class="row m-auto">
             <!-- <div class="col"><button class="btn btn-sm btn-outline-success "></button></div> -->
             <div class="col"><a href="#" class="btn btn-sm btn-outline-primary">view</a></div>
-            <div class="col"><button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-sm btn-outline-success">sell</button></div>
+            <div class="col"><button data-bs-toggle="modal" data-bs-target="#str{{ phone.id }}" class="btn btn-sm btn-outline-success">sell</button></div>
         </div>
         </div>
     </div>
 
     <!-- modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="str{{ phone.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content phone-modal">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <h1 class="modal-title fs-5" id="exampleModalLabel">{{ phone.id }} {{ phone.name }}</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
