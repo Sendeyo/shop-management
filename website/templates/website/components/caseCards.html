@@ -8,7 +8,10 @@
             <div class="phone-image">
 
             </div>
-            <div class="h5 text-center"><strong>{{ case.phone.name }}</strong> - <small class="text-body-primary">{{ case.type }} Case</small> <span class="float-end badge rounded-pill bg-dark">{{ case.quantity }}</span></div>
+            <div class="h5 text-center"><strong>{{ case.phone.name }}</strong> - 
+                <small class="text-body-primary">{{ case.type }} Case</small> 
+                <span class="float-end badge rounded-pill bg-secondary"><small>{{ case.quantity }} pcs</small></span>
+            </div>
             <p class="small pb-0 mb-0">
                 {% if case.location %}
                 <span class="m-auto text-muted"> {{ case.location }}</span>
