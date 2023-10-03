@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from .models import Phone, Protector, Case
+from .models import Phone, Protector, Case, Product
 
 # Create your views here.
 def home(request):
     context = {
         "tab":"home",
+        "products" : Product.objects.all(),
         "phones" : Phone.objects.all(),
         "protectors" : Protector.objects.all(),
         "cases" : Case.objects.all(),

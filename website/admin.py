@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import CaseType, ProtectorType, Case, Protector, Phone
+from .models import Product, Category, CaseType, ProtectorType, Case, Protector, Phone
+
 
 # Configure the Admin page
 admin.site.site_header = "ERICO ELECTRONICS"
@@ -52,3 +53,6 @@ admin.site.register(ProtectorType)
 admin.site.register(Case, CaseAdmin)
 admin.site.register(Protector, ProtectorAdmin)
 admin.site.register(Phone, PhoneAdmin)
+
+admin.site.register(Product)
+admin.site.register(Category)
