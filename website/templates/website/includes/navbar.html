@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #b4e0ff;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}"><span class="h5">ERICO ELECTRONICS</span></a>
+        <a class="navbar-brand" href="{% url 'home-page' %}"><span class="h5">ERICO ELECTRONICS</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -10,16 +10,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             
 
-            <form class="d-flex m-auto 2 form" role="search">
-                <select name="" class="form-control mx-2" id=""> 
-                    <option value="">--- ---- ---</option>
-                    <option value="">Phones</option>
-                    <option value="">Protectors</option>
-                    <option value="">Cases</option>
-                    <option value="">Spares</option>
+            <form class="d-flex m-auto 2 form" role="search" action="{% url 'home-page'%}" method="post">
+                {% csrf_token%}
+                <select name="category" class="form-control mx-2" id="" > 
+                    <option value=""><small>--- ALL ---</small></option>
+                    
+                    
+                    {% if categories %}
+                        {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    {% endif %}
 
                 </select>
-                <input class="form-control me-2 search" type="search" placeholder="Search" aria-label="Search">
+                <input id="search" class="form-control me-2 search" value="{{ search_value }}" type="search" name="search_value" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
 
@@ -27,12 +31,12 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link {% if tab == 'home' %}active{% endif %}
-                    " aria-current="page" href="{% url 'home' %}">Home</a>
+                    " aria-current="page" href="{% url 'home-page' %}">Home</a>
                 </li>
                 
                 <li class="nav-item">
                     <a class="nav-link {% if tab == 'sales' %}active{% endif %}
-                    " aria-current="page" href="{% url 'sales' %}">Sales</a>
+                    " aria-current="page" href="{% url 'sales-page' %}">Sales</a>
                 </li>
 
                 

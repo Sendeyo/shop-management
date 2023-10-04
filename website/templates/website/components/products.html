@@ -1,11 +1,12 @@
 <div class="row mt-2">
+  {% if not products %}
+    <center>No products</center>
+  {% endif %}
     {% for product in products %}
-    {% if product.quantity < 1 %}
     
-    {% endif %}
   
     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 mt-2">
-      <div class="card phone p-2">
+      <div class="card p-2 {% if product.category.name == 'Phone' %}phone{% endif %}{% if product.category.name == 'Case' %}case{% endif %}{% if product.category.name == 'Protector' %}protector{% endif %}">
         <div class="phone-image">
   
         </div>
@@ -20,6 +21,7 @@
         <div class="clearfix">
           <div class="float-end"><span class="h5">{{ product.sellingPrice }} KSH</span></div>
         </div>
+        {% if product.quantity > 0 %}   
         <div class="row m-auto">
           <!-- <div class="col"><button class="btn btn-sm btn-outline-success "></button></div> -->
           <div class="col"><a href="#" class="btn btn-sm btn-outline-primary">view</a></div>
@@ -29,6 +31,7 @@
               </button>
           </div>
         </div>
+        {% endif %}
       </div>
     </div>
 

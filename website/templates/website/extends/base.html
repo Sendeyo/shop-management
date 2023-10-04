@@ -9,6 +9,11 @@
     {% endif %}</title>
     <link rel="stylesheet" href="{% static 'website/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'website/style.css' %}">
+    <script>
+        window.onload = function() {
+            document.getElementById('search').focus();
+        }
+    </script>
 </head>
 <body>
     {% block base %}

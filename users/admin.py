@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import ContactCategory, Contact
+from .models import Debt, Contact
 # Register your models here.
 
 
-admin.site.register(ContactCategory)
+admin.site.register(Debt)
 admin.site.register(Contact)
