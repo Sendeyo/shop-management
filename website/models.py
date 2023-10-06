@@ -12,11 +12,11 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
 
-    quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField()
     buyingPrice = models.IntegerField()
     sellingPrice = models.IntegerField()
     discountPrice = models.IntegerField(blank=True, null=True)

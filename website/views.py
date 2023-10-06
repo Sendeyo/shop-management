@@ -1,8 +1,11 @@
 from django.shortcuts import render
+from django.contrib import messages
 from .models import Product, Category
 from users.models import Contact, Debt
+from .forms import ProductForm
 
 # Create your views here.
+# 
 def home(request):
     if request.method == "POST":
         category = request.POST.get("category")
@@ -36,13 +39,36 @@ def home(request):
         }
         return render(request, "website/home.html", context)
     
+## Products Forms -----------------------------------------------------<
 def products(request):
     context = {
-        "tab":"settings",
-        "subtab":"products",
-        "products": Product.objects.all()
+        "tab":"settings", "subtab":"products",
+        "products": Product.objects.all(),
+        "form" : ProductForm,
     }
+
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Product Added Successfully")
+            context["form"] = form
+            return render(request, "website/products.html", context)
+        else:
+            messages.warning(request, "Product addition Failed")
+            return render(request, "website/products.html", context)
     return render(request, "website/products.html", context)
+
+def addProduct(request):
+    context = {
+        "tab":"settings",
+        "subtab":"Add Product",
+        "form" : ProductForm,
+    }
+    return render(request, "website/forms/addProduct.html", context)
+
+
+## Products Forms ----------------------------------------------------->
 
 def sales(request):
     context = {
@@ -63,4 +89,4 @@ def contact(request):
         "subtab":"contact",
         "contacts": Contact.objects.all()
     }
-    return render(request, "website/contact.html", context)
+    return render(request, "website/contacts.html", context)

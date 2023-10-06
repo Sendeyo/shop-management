@@ -1,0 +1,19 @@
+{% extends 'website/extends/structure.html' %}
+
+{% block structure %}
+
+<div class="row">
+  <div class="col-sm-6 col-md-4 col-lg-4 m-auto">
+    <div class="protector p-4">
+      <form action="" class="form-group" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="form-control btn btn-sm btn-outline-primary" value="ADD PRODUCT">
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock structure %}
+

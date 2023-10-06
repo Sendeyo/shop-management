@@ -18,8 +18,11 @@
             <span class="float-end badge rounded-pill bg-secondary"><small>{{ product.quantity }} pcs</small></span>
           </div>
           <p class="small pb-0 mb-0">
+            {% if product.description %}
             {{ product.description }}
             <br>
+            {% endif %}
+            
             <span class="m-auto text-muted">{{ product.location }}</span>
           </p>
           <div class="clearfix">

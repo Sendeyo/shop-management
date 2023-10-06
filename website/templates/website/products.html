@@ -2,73 +2,63 @@
 
 {% block structure %}
 
-<div class="row mt-2">
-    {% if not products %}
-      <center>No products</center>
-    {% endif %}
-      {% for product in products %}
-      
-    
-      <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 mt-2">
-        <div class="card p-2 {% if product.category.name == 'Phone' %}phone{% endif %}{% if product.category.name == 'Case' %}case{% endif %}{% if product.category.name == 'Protector' %}protector{% endif %}">
-          <div class="phone-image">
-    
-          </div>
-          <div class="h6 text-center"><strong>{{ product.name }}</strong>
-            <span class="float-end badge rounded-pill bg-secondary"><small>{{ product.quantity }} pcs</small></span>
-          </div>
-          <p class="small pb-0 mb-0">
-            {{ product.description }}
-            <br>
-            <span class="m-auto text-muted">{{ product.location }}</span>
-          </p>
-          <div class="clearfix">
-            <div class="float-end"><span class="h5">{{ product.sellingPrice }} KSH</span></div>
-          </div>
-          {% if product.quantity > 0 %}   
-          <div class="row m-auto">
-            <!-- <div class="col"><button class="btn btn-sm btn-outline-success "></button></div> -->
-            <div class="col"><a href="#" class="btn btn-sm btn-outline-primary">cart</a></div>
-            <div class="col">
-              <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#o{{ product.id }}">
-                  sell
-                </button>
-            </div>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-  
-      <!-- Modal -->
-      <div class="modal fade" id="o{{ product.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-          <div class="modal-content phone-modal row">
-              <div class="modal-body">
-              
-              <div class=""><button type="button" class="float-end btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
-              <p>{{ product.name }}</p>
-  
-              <div>
-                <form action="" method="post" class="form-group">
-                  {% csrf_token %}
-                  <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">SELL AT KSH</span>
-                    <input type="text" class="form-control" placeholder="{{ product.sellingPrice }}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <input type="button" class="form-control input-group-text btn btn-outline-info" value="SELL">
-                  </div>
-                  
-                </form>
-              </div>
-  
-              <div class="row m-auto">
-                  <div class="col"><center><a href="#" class="btn m-auto btn-sm btn-outline-primary">Add to cart</a></center></div>
-                  <div class="col"><center><a href="#" class="btn m-auto btn-sm btn-outline-success">Direct Sell</a></center></div>
-              </div>
-          </div>
-          </div>
-          </div>
-      </div>
-      {% endfor %}
+{% if products %}
+<div class="contact row m-auto mt-4">
+  <div class="col phone">
+    <table class="table table table-striped table-hover table-responsive">
+      <thead>
+        <tr>
+          <th></th>
+          <th>NAME</th>
+          <th>CATEGORY</th>
+          <th>Quantity</th>
+          <th>Buying Price</th>
+          <th>Selling Price</th>
+          <th>
+            <a class="float-end btn btn-sm btn-outline-primary" data-bs-toggle="offcanvas" href="#addProductModel" role="button" aria-controls="offcanvasExample">Add product</a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.id }}</td>
+          <td><a href="" class="text-decoration-none">{{ product.name }}</a></td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.buyingPrice }}</td>
+          <td>{{ product.sellingPrice }}</td>
+          <td></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% else %}
+<div class="text-center">Please start adding stock <a class="" data-bs-toggle="offcanvas" href="#addProductModel"
+    role="button" aria-controls="offcanvasExample">here</a>.</div>
+{% endif %}
+
+<!-- The off canvas -->
+
+<div class="offcanvas offcanvas-end phone-modal" tabindex="-1" id="addProductModel" aria-labelledby="addProduct">
+  <div class="offcanvas-header">
+    <p class="offcanvas-title h5 text-center" id="offcanvasExampleLabel">ADD PRODUCT</p>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <!-- Start -->
+    <div>
+      <form action="" class="form-group" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="form-control btn btn-sm btn-primary" value="ADD PRODUCT">
+      </form>
     </div>
+    <!-- End -->
+  </div>
+</div>
 
 {% endblock structure %}
