@@ -1,11 +1,38 @@
 from django.contrib import admin
-from .models import Product, Category, CaseType, ProtectorType, Case, Protector, Phone
+from .models import Product, Category
 
 
 # Configure the Admin page
 admin.site.site_header = "ERICO ELECTRONICS"
 admin.site.index_title = ""
 admin.site.site_title = "ERICO ELECTRONICS"
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ("name", "category", "quantity", "buyingPrice", "sellingPrice")
+    list_filter = ["category"]
+    search_fields = ["name", "description"]
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    search_fields = ["name"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Configure model looks from the db
 class PhoneAdmin(admin.ModelAdmin):
@@ -47,12 +74,12 @@ class ProtectorAdmin(admin.ModelAdmin):
         pass
 
 
-# Register your models here.
-admin.site.register(CaseType)
-admin.site.register(ProtectorType)
-admin.site.register(Case, CaseAdmin)
-admin.site.register(Protector, ProtectorAdmin)
-admin.site.register(Phone, PhoneAdmin)
 
-admin.site.register(Product)
-admin.site.register(Category)
+
+# Register your models here.
+# admin.site.register(CaseType)
+# admin.site.register(ProtectorType)
+# admin.site.register(Case, CaseAdmin)
+# admin.site.register(Protector, ProtectorAdmin)
+# admin.site.register(Phone, PhoneAdmin)
+

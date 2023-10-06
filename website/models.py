@@ -2,6 +2,59 @@ from django.db import models
 
 # Create your models here.
 
+## The important Models
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = models.TextField(blank=True, null=True)
+
+    quantity = models.IntegerField(default=0)
+    buyingPrice = models.IntegerField()
+    sellingPrice = models.IntegerField()
+    discountPrice = models.IntegerField(blank=True, null=True)
+
+    location = models.CharField(blank=True, null=True, max_length=1000)
+
+    def __str__(self):
+        return self.name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class ProtectorType(models.Model):
     type = models.CharField(max_length=100)
 
@@ -65,28 +118,5 @@ class Case(models.Model):
     def __str__(self):
         return self.phone.name
     
-## The important Models
-
-class Category(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-
-
-class Product(models.Model):
-    name = models.CharField(max_length=200)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    description = models.TextField(blank=True, null=True)
-
-    quantity = models.IntegerField(default=0)
-    buyingPrice = models.IntegerField()
-    sellingPrice = models.IntegerField()
-    discountPrice = models.IntegerField(blank=True, null=True)
-
-    location = models.CharField(blank=True, null=True, max_length=1000)
-
-    def __str__(self):
-        return self.name
 
 

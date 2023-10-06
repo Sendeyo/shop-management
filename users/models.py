@@ -8,7 +8,7 @@ class Contact(models.Model):
 
     name = models.CharField(max_length=300)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    phone = models.CharField(max_length=13)
+    phone = models.CharField(max_length=13, unique=True)
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):

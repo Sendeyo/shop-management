@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #b4e0ff;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home-page' %}"><span class="h5">ERICO ELECTRONICS</span></a>
+        <a class="navbar-brand" href="{% url 'home-page' %}"><span class="h5">ERICO ELECTRONICS {% if subtab %}
+            - <small>({{ subtab }})</small>
+        {% endif %} </span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,7 +10,8 @@
 
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            
+
+            {% if tab == "home" %}
 
             <form class="d-flex m-auto 2 form" role="search" action="{% url 'home-page'%}" method="post">
                 {% csrf_token%}
@@ -26,6 +29,21 @@
                 <input id="search" class="form-control me-2 search" value="{{ search_value }}" type="search" name="search_value" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+                
+            {% endif %}
+
+            {% if tab == "sales" %}
+            <form class="d-flex m-auto 2 form" role="search" action="{% url 'sales-page'%}" method="post">
+                {% csrf_token%}
+                <input id="search" class="form-control me-2 search" value="{{ search_value }}" type="search" name="search_value" placeholder="Sales Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            {% else %}
+            <div class="m-auto"></div>
+            {% endif %}
+            
+
+            
 
 
             <ul class="navbar-nav mb-2 mb-lg-0">
@@ -42,22 +60,26 @@
                 
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {% if tab == 'settings' %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" >
                         Settings
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Some</a></li>
-                        <li><a class="dropdown-item" href="#">Products</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+                        <li><a class="dropdown-item {% if subtab == 'contact' %}active{% endif %}" href="{% url 'contact-page' %}">Contacts</a></li>
+                        <li><a class="dropdown-item {% if subtab == 'products' %}active{% endif %}" href="{% url 'products-page' %}">Products</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/admin">Admin</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a data-bs-toggle="offcanvas" href="#cart" role="button" aria-controls="offcanvasExample"  class="nav-link"  aria-disabled="true">Cart</a>
+                    <a class="nav-link {% if tab == 'cart' %}active{% endif %}
+                    " aria-current="page" href="{% url 'cart-page' %}">Cart</a>
                 </li>
+                <!-- <li class="nav-item">
+                    <a data-bs-toggle="offcanvas" href="#cart" role="button" aria-controls="offcanvasExample"  class="nav-link"  aria-disabled="true">Cart</a>
+                </li> -->
             </ul>
 
 
