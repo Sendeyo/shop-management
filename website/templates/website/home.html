@@ -1,10 +1,12 @@
 {% extends 'website/extends/structure.html' %}
-
+{% load humanize %}
 {% block structure %}
 
 <div class="row mt-2">
     {% if not products %}
-      <center>No products</center>
+      <center>No results for <strong>{{ search_value }} {% if selected_category %}
+        - {{ selected_category }}
+      {% endif %}</strong></center>
     {% endif %}
       {% for product in products %}
       
@@ -26,12 +28,12 @@
             <span class="m-auto text-muted">{{ product.location }}</span>
           </p>
           <div class="clearfix">
-            <div class="float-end"><span class="h5">{{ product.sellingPrice }} KSH</span></div>
+            <div class="float-end"><span class="h5">{{ product.sellingPrice|intcomma }} KSH</span></div>
           </div>
           {% if product.quantity > 0 %}   
           <div class="row m-auto">
             <!-- <div class="col"><button class="btn btn-sm btn-outline-success "></button></div> -->
-            <div class="col"><a href="#" class="btn btn-sm btn-outline-primary">cart</a></div>
+            <!-- <div class="col"><a href="#" class="btn btn-sm btn-outline-primary">cart</a></div> -->
             <div class="col">
               <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#o{{ product.id }}">
                   sell
@@ -49,24 +51,60 @@
               <div class="modal-body">
               
               <div class=""><button type="button" class="float-end btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
-              <p>{{ product.name }}</p>
+              <p class="h6">{{ product.name }}</p>
+
+              <p>
+                <small>Max-discount {{ product.discountPrice }} </small>
+
+              </p>
   
               <div>
-                <form action="" method="post" class="form-group">
+                <form action="" name="sell" method="POST" class="form-group">
                   {% csrf_token %}
+                  <input type="text" name="product" hidden value="{{ product.id }}">
                   <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-sm">SELL AT KSH</span>
-                    <input type="text" class="form-control" placeholder="{{ product.sellingPrice }}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <input type="button" class="form-control input-group-text btn btn-outline-info" value="SELL">
+                    <input type="number" class="form-control" name="priceSold" placeholder="{{ product.sellingPrice|intcomma }}" 
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Quantity</span>
+                    <input type="number" class="form-control" value="1" placeholder="1"  name="quantity"
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Payment Via</span>
+                    <select name="paymentMethod" class="form-control" id="">
+                      <option value="mpesa">Mpesa</option>
+                      <option value="cash">Cash</option>
+                      <option value="bank">Bank</option>
+                    </select>
+
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Status</span>
+                    <select name="status" class="form-control" id="">
+                      <option value="paid">Paid</option>
+                      <option value="pending">Pending</option>
+                      <option value="canceled">Canceled</option>
+                    </select>
+                  </div>
+
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Add Buyers:</span>
+
+                    <input type="text" class="form-control" name="buyerNumber" placeholder="Phone Number" 
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+
+                    <input type="text" class="form-control" name="buyerName" placeholder="Name" 
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+
+                  <div class="row m-auto">
+                    <input type="submit" name="seller" class="form-control input-group-text btn btn-outline-primary" value="SELL">
                   </div>
                   
                 </form>
               </div>
-  
-              <div class="row m-auto">
-                  <div class="col"><center><a href="#" class="btn m-auto btn-sm btn-outline-primary">Add to cart</a></center></div>
-                  <div class="col"><center><a href="#" class="btn m-auto btn-sm btn-outline-success">Direct Sell</a></center></div>
-              </div>
+
           </div>
           </div>
           </div>

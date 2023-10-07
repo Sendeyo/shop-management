@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.contrib import messages
-from .models import Product, Category
+from .models import Product, Category, Sale
 from users.models import Contact, Debt
 from .forms import ProductForm
+
+import datetime
 
 # Create your views here.
 # 
 def home(request):
-    if request.method == "POST":
+    if request.method == "POST" and "searcher" in request.POST:
         category = request.POST.get("category")
         search_value = request.POST.get("search_value")
         try:
@@ -20,7 +22,9 @@ def home(request):
                 "products" : products,
                 "categories" : Category.objects.all(),
                 "selected_category": category,
-                "search_value": search_value
+                "search_value": search_value,
+                "a":100,
+                "b":50,
                 }
             return render(request, "website/home.html", context)
         except Exception as e:
@@ -30,12 +34,103 @@ def home(request):
                 "categories" : Category.objects.all(),
                 }
             return render(request, "website/home.html", context)
+    elif request.method == "POST" and "seller" in request.POST:
+        product = Product.objects.get(pk=request.POST.get("product"))
+        quantity = int(request.POST.get("quantity"))
+        priceSold = product.sellingPrice if request.POST.get("priceSold")=="" else request.POST.get("priceSold")
+        paymentMethod = request.POST.get("paymentMethod")
+        status = request.POST.get("status")
+        seller = request.user if request.user.is_authenticated else None
+        buyerName = request.POST.get("buyerName") # not for sale
+        buyerNumber = request.POST.get("buyerNumber") # not for sale
+
+        errors = []
+        # Ensure you are not giving more discount than allowed
+        if product.sellingPrice - int(priceSold) > product.discountPrice:
+            error = f"You cant sell {product.name} for less than {product.sellingPrice - product.discountPrice}"
+            errors.append(error)
+
+        # Ensure you are not selling the wrong number of products
+        if quantity < 1 or quantity > product.quantity:
+            if quantity == 0:
+                message = "You cant sell 0 product"
+                errors.append(message)
+            elif quantity < 0:
+                message = "You cant sell Negative Product"
+                errors.append(message)
+            else:
+                message = f"You cant sell more than {product.quantity} {product}"
+                errors.append(message)
+
+        # Ensure the phone number is right
+        if len(buyerNumber) < 10:
+            message = f"That Phone Number is not Valid."
+            errors.append(message)
+
+        # Send the errors to the user
+        if errors:
+            for error in errors:
+                messages.warning(request, error)
+            context = {
+            "tab":"home",
+            "products" : Product.objects.all(),
+            "categories" : Category.objects.all(),
+            }
+            return render(request, "website/home.html", context)
+
+        product.quantity = product.quantity-quantity
+        product.save()
+
+
+        if buyerNumber and len(buyerNumber) >=10:
+            theNumber = buyerNumber[-9:]
+            unknownCustomers= Contact.objects.filter(phone__icontains = theNumber)
+            if unknownCustomers:
+                customer = unknownCustomers[0]
+                messages.success(request, f"You have sold a {product.name} to {customer}")
+            else:
+                newCustomer = Contact(
+                    name=buyerName if buyerName else None,
+                    category = "customer",
+                    phone = f"0{theNumber}",
+                    description = f"Bought {product.name} on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} "
+                )
+                customer = newCustomer.save()
+                customer = newCustomer
+                messages.success(request, f"You have sold a {product.name} to new Customer {newCustomer.phone}")
+            newSale = Sale(
+                product = product,
+                quantity = quantity,
+                priceSold = priceSold,
+                paymentMethod = paymentMethod,
+                buyer = customer,
+                seller = seller,
+                status = status
+            )
+            newSale.save()
+        else:
+            newSale = Sale(
+                product = product,
+                quantity = quantity,
+                priceSold = priceSold,
+                paymentMethod = paymentMethod,
+                buyer = None,
+                seller = seller,
+                status = status
+            )
+            messages.success(request, f"You have sold a {product.name} to Unknown Customer")
+
+        context = {
+            "tab":"home",
+            "products" : Product.objects.all(),
+            "categories" : Category.objects.all(),
+        }
+        return render(request, "website/home.html", context)
     else:
         context = {
             "tab":"home",
             "products" : Product.objects.all(),
             "categories" : Category.objects.all(),
-
         }
         return render(request, "website/home.html", context)
     

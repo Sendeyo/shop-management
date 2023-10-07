@@ -1,4 +1,7 @@
+from collections.abc import Iterable
 from django.db import models
+from users.models import Contact
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -19,12 +22,28 @@ class Product(models.Model):
     quantity = models.IntegerField()
     buyingPrice = models.IntegerField()
     sellingPrice = models.IntegerField()
-    discountPrice = models.IntegerField(blank=True, null=True)
+    discountPrice = models.IntegerField(default=0)
 
     location = models.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self):
         return self.name
+    
+
+class Sale(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    priceSold = models.IntegerField()
+    dateTime = models.DateTimeField(auto_now_add=True)
+    paymentMethod = models.CharField(max_length=10)
+    buyer = models.ForeignKey(Contact, blank=True, null=True, on_delete=models.SET_NULL)
+    seller = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    status = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.product.name
+
+
 
 
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category
+from .models import Product, Category, Sale
 
 
 # Configure the Admin page
@@ -10,7 +10,7 @@ admin.site.site_title = "ERICO ELECTRONICS"
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "category", "quantity", "buyingPrice", "sellingPrice")
+    list_display = ("name", "category", "quantity", "buyingPrice", "discountPrice","sellingPrice")
     list_filter = ["category"]
     search_fields = ["name", "description"]
 
@@ -18,6 +18,14 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ["name"]
+
+
+@admin.register(Sale)
+class SaleAdmin(admin.ModelAdmin):
+    list_display = ("product", "quantity", "priceSold", "paymentMethod", "buyer", "seller", "dateTime", "status")
+    list_filter = ["seller", "status", "paymentMethod"]
+    search_fields = ["product", "buyer"]
+    
 
 
 
