@@ -13,8 +13,12 @@
 
             {% if tab == "home" %}
 
+
+
+
             <form class="d-flex m-auto 2 form"  action="{% url 'home-page'%}" method="POST" name="searcher">
                 {% csrf_token%}
+                
                 <select name="category" class="form-control mx-2" id="" > 
                     <option value=""><small>--- ALL ---</small></option>
                     

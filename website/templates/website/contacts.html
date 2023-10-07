@@ -12,14 +12,15 @@
                     <th>NAME</th>
                     <th>CATEGORY</th>
                     <th>PHONE</th>
-                    <th>DESCRIPTION<button type="button" class="float-end btn btn-sm btn-outline-primary">Add Contact</button></th>
+                    <th>DESCRIPTION</th>
+                    <!-- <th>DESCRIPTION<button type="button" class="float-end btn btn-sm btn-outline-primary">Add Contact</button></th> -->
                 </tr>
             </thead>
             <tbody>
                 {% for contact in contacts %}
                 <tr>
-                    <td>{{ contact.id }}</td>
-                    <td><a href="" class="text-decoration-none">{{ contact.name }}</a></td>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'contact-details' contact.id %}" class="text-decoration-none">{{ contact.name }}</a></td>
                     <td>{{ contact.category }}</td>
                     <td>{{ contact.phone }}</td>
                     <td>{{ contact.description }}</td>

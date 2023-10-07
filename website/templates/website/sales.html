@@ -2,9 +2,27 @@
 
 {% block structure %}
 
-this is sales cart-page
+{% include 'website/components/salesTable.html' %}
 
+
+
+<!-- The off canvas -->
+
+<div class="offcanvas offcanvas-end phone-modal" tabindex="-1" id="addProductModel" aria-labelledby="addProduct">
+  <div class="offcanvas-header">
+    <p class="offcanvas-title h5 text-center" id="offcanvasExampleLabel">ADD PRODUCT</p>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <!-- Start -->
+    <div>
+      <form action="" class="form-group" method="post">
+        {% csrf_token %}
+        <input type="submit" class="form-control btn btn-sm btn-primary" value="ADD PRODUCT">
+      </form>
+    </div>
+    <!-- End -->
+  </div>
+</div>
 
 {% endblock structure %}
-
-

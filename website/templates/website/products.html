@@ -22,7 +22,7 @@
       <tbody>
         {% for product in products %}
         <tr>
-          <td>{{ product.id }}</td>
+          <td>{{ forloop.counter }}</td>
           <td><a href="" class="text-decoration-none">{{ product.name }}</a></td>
           <td>{{ product.category }}</td>
           <td>{{ product.quantity }}</td>

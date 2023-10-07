@@ -79,15 +79,15 @@ def home(request):
             return render(request, "website/home.html", context)
 
         product.quantity = product.quantity-quantity
-        product.save()
+        product.save() #Remaining Quantity update
 
-
+        totalCost = priceSold * quantity
         if buyerNumber and len(buyerNumber) >=10:
             theNumber = buyerNumber[-9:]
             unknownCustomers= Contact.objects.filter(phone__icontains = theNumber)
             if unknownCustomers:
                 customer = unknownCustomers[0]
-                messages.success(request, f"You have sold a {product.name} to {customer}")
+                messages.success(request, f"You have sold {product.name} to {customer}")
             else:
                 newCustomer = Contact(
                     name=buyerName if buyerName else None,
@@ -97,11 +97,11 @@ def home(request):
                 )
                 customer = newCustomer.save()
                 customer = newCustomer
-                messages.success(request, f"You have sold a {product.name} to new Customer {newCustomer.phone}")
+                messages.success(request, f"You have sold {product.name} to new Customer {newCustomer.phone}")
             newSale = Sale(
                 product = product,
                 quantity = quantity,
-                priceSold = priceSold,
+                priceSold = totalCost,
                 paymentMethod = paymentMethod,
                 buyer = customer,
                 seller = seller,
@@ -112,13 +112,13 @@ def home(request):
             newSale = Sale(
                 product = product,
                 quantity = quantity,
-                priceSold = priceSold,
+                priceSold = totalCost,
                 paymentMethod = paymentMethod,
                 buyer = None,
                 seller = seller,
                 status = status
             )
-            messages.success(request, f"You have sold a {product.name} to Unknown Customer")
+            messages.success(request, f"You have sold {product.name} to Unknown Customer")
 
         context = {
             "tab":"home",
@@ -138,7 +138,7 @@ def home(request):
 def products(request):
     context = {
         "tab":"settings", "subtab":"products",
-        "products": Product.objects.all(),
+        "products": Product.objects.all().order_by("-id"),
         "form" : ProductForm,
     }
 
@@ -154,20 +154,12 @@ def products(request):
             return render(request, "website/products.html", context)
     return render(request, "website/products.html", context)
 
-def addProduct(request):
-    context = {
-        "tab":"settings",
-        "subtab":"Add Product",
-        "form" : ProductForm,
-    }
-    return render(request, "website/forms/addProduct.html", context)
-
-
 ## Products Forms ----------------------------------------------------->
 
 def sales(request):
     context = {
         "tab":"sales",
+        "sales": Sale.objects.all().order_by("-id")
     }
     return render(request, "website/sales.html", context)
 
@@ -177,11 +169,27 @@ def cart(request):
     }
     return render(request, "website/cart.html", context)
 
+# Contact Views -----------------------------------------------------<
 
 def contact(request):
     context = {
         "tab":"settings",
         "subtab":"contact",
-        "contacts": Contact.objects.all()
+        "contacts": Contact.objects.all().order_by("-id")
     }
     return render(request, "website/contacts.html", context)
+
+def contactDetails(request, pk):
+    contact = Contact.objects.get(pk=pk)
+    context = {
+        "tab":"settings",
+        "subtab":contact.name,
+        "contact": contact,
+        "sales" : Sale.objects.all().filter(buyer=pk).order_by("-id"),
+        "debts" : Debt.objects.all().filter(contact=pk).order_by("-id"),
+    }
+    return render(request, "website/detailPage/contactDetails.html", context)
+
+
+
+# Contact Views ----------------------------------------------------->

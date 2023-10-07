@@ -1,0 +1,36 @@
+{% if debts %}
+<div class="contact row m-auto mt-2">
+  <div class="col">
+    <table class="table table table-striped table-hover table-responsive">
+      <thead>
+        <tr>
+            <th></th>
+          <th>Contact</th>
+          <th>Amount</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Status</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for debt in debts %}
+        
+        <tr class="{% if debt.status == 'pending' %}table-danger{% endif %}" >
+            <td>{{ forloop.counter }}</td>
+          <td>{{ debt.contact }}</td>
+          <td>{{ debt.amount }}</td>
+          <td>{{ debt.description }}</td>
+          <td>{{ debt.category }}</td>
+          <td>{{ debt.status }}</td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% else %}
+<div class="text-center m-4">No debts.</div>
+{% endif %}
