@@ -3,7 +3,8 @@ from django.contrib import messages
 from .models import Product, Category, Sale
 from users.models import Contact, Debt
 from .forms import ProductForm
-
+# paginator
+from django.core.paginator import Paginator
 import datetime
 
 # Create your views here.
@@ -136,10 +137,15 @@ def home(request):
     
 ## Products Forms -----------------------------------------------------<
 def products(request):
+    productsFromDb = Product.objects.all().order_by("-id")
+    paginator = Paginator(productsFromDb, 20)
+    products = paginator.get_page(request.GET.get("page"))
+
     context = {
         "tab":"settings", "subtab":"products",
-        "products": Product.objects.all().order_by("-id"),
+        "products": products,
         "form" : ProductForm,
+        "products":products,
     }
 
     if request.method == "POST":

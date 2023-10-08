@@ -22,7 +22,7 @@
       <tbody>
         {% for product in products %}
         <tr>
-          <td>{{ forloop.counter }}</td>
+          <td>{{ product.id }}</td>
           <td><a href="" class="text-decoration-none">{{ product.name }}</a></td>
           <td>{{ product.category }}</td>
           <td>{{ product.quantity }}</td>
@@ -35,6 +35,8 @@
     </table>
   </div>
 </div>
+
+<center>{% include 'website/components/pagination.html' %}</center>
 
 {% else %}
 <div class="text-center">Please start adding stock <a class="" data-bs-toggle="offcanvas" href="#addProductModel"
