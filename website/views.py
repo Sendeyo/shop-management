@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.contrib import messages
 from .models import Product, Category, Sale
-from users.models import Contact, Debt
+from users.models import Contact, Debt, Log
 from .forms import ProductForm
+from django.contrib.auth.decorators import login_required
 # paginator
 from django.core.paginator import Paginator
 import datetime
 
 # Create your views here.
 # 
+@login_required
 def home(request):
     if request.method == "POST" and "searcher" in request.POST:
         category = request.POST.get("category")
@@ -88,6 +90,7 @@ def home(request):
             unknownCustomers= Contact.objects.filter(phone__icontains = theNumber)
             if unknownCustomers:
                 customer = unknownCustomers[0]
+                log = f"Sold {quantity} -- {product.name} to {customer}"
                 messages.success(request, f"You have sold {product.name} to {customer}")
             else:
                 newCustomer = Contact(
@@ -98,6 +101,7 @@ def home(request):
                 )
                 customer = newCustomer.save()
                 customer = newCustomer
+                log = f"Sold {quantity} {product.name} to new Customer {newCustomer.phone}"
                 messages.success(request, f"You have sold {product.name} to new Customer {newCustomer.phone}")
             newSale = Sale(
                 product = product,
@@ -109,6 +113,8 @@ def home(request):
                 status = status
             )
             newSale.save()
+            newLog = Log(user = request.user, action = log)
+            newLog.save()
         else:
             newSale = Sale(
                 product = product,
@@ -119,7 +125,11 @@ def home(request):
                 seller = seller,
                 status = status
             )
-            messages.success(request, f"You have sold {product.name} to Unknown Customer")
+            log = f"Sold {quantity} -- {product.name} to Anonymous Customer"
+            messages.success(request, f"You have sold {product.name} to Anonymous Customer")
+            newSale.save()
+            newLog = Log(user = request.user, action = log)
+            newLog.save()
 
         context = {
             "tab":"home",
@@ -128,14 +138,19 @@ def home(request):
         }
         return render(request, "website/home.html", context)
     else:
+        productsDb = Product.objects.all()
+        pagination = Paginator(productsDb, 50)
+        products = pagination.get_page(request.GET.get("page"))
+
         context = {
             "tab":"home",
-            "products" : Product.objects.all(),
+            "products" : products,
             "categories" : Category.objects.all(),
         }
         return render(request, "website/home.html", context)
     
 ## Products Forms -----------------------------------------------------<
+@login_required
 def products(request):
     productsFromDb = Product.objects.all().order_by("-id")
     paginator = Paginator(productsFromDb, 20)
@@ -143,7 +158,6 @@ def products(request):
 
     context = {
         "tab":"settings", "subtab":"products",
-        "products": products,
         "form" : ProductForm,
         "products":products,
     }
@@ -152,6 +166,8 @@ def products(request):
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
+            log = f"Added {request.POST.get('quantity')}  {request.POST.get('name')} under {request.POST.get('category')}"
+            Log(user = request.user, action = log).save()
             messages.success(request, "Product Added Successfully")
             context["form"] = form
             return render(request, "website/products.html", context)
@@ -160,12 +176,16 @@ def products(request):
             return render(request, "website/products.html", context)
     return render(request, "website/products.html", context)
 
-## Products Forms ----------------------------------------------------->
 
+## Products Forms ----------------------------------------------------->
+@login_required
 def sales(request):
+    salesDb = Sale.objects.all().order_by("-id")
+    paginator = Paginator(salesDb, 10)
+    sales = paginator.get_page(request.GET.get("page"))
     context = {
         "tab":"sales",
-        "sales": Sale.objects.all().order_by("-id")
+        "sales": sales
     }
     return render(request, "website/sales.html", context)
 
@@ -176,7 +196,7 @@ def cart(request):
     return render(request, "website/cart.html", context)
 
 # Contact Views -----------------------------------------------------<
-
+@login_required
 def contact(request):
     context = {
         "tab":"settings",
@@ -185,6 +205,7 @@ def contact(request):
     }
     return render(request, "website/contacts.html", context)
 
+@login_required
 def contactDetails(request, pk):
     contact = Contact.objects.get(pk=pk)
     context = {

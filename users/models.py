@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Contact(models.Model):
     CATEGORY_CHOICES = [
@@ -35,3 +36,11 @@ class Debt(models.Model):
 
     def __str__(self):
         return self.contact.name
+    
+
+
+class Log(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    dateTime = models.DateTimeField(auto_now_add=True)
+    action = models.TextField()
+

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #b4e0ff;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home-page' %}"><span class="h5">ERICO ELECTRONICS {% if subtab %}
+        <a class="navbar-brand" href="{% url 'home-page' %}"><span class="h5">ERICO ELECTRONICS -[{{ user }}] {% if subtab %}
             - <small>({{ subtab }})</small>
         {% endif %} </span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -75,6 +75,7 @@
                         
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 </li>
                 <!-- <li class="nav-item">

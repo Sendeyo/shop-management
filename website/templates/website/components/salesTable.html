@@ -34,6 +34,27 @@
   </div>
 </div>
 
+<div class="mt-2">
+  <nav aria-label="Page navigation example">
+      <ul class="pagination">
+          {% if sales.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{sales.previous_page_number}}">Previous</a></li>
+          {% endif %}
+        
+        <!-- <li class="page-item"><a class="page-link" href="#">1</a></li> -->
+        <li class="page-item"><a class="page-link" href="?page={{ sales.number }}">Page {{ sales.number }} of {{ sales.paginator.num_pages }}</a></li>
+
+        {% if sales.has_next %}
+
+        <li class="page-item"><a class="page-link" href="?page={{sales.next_page_number}}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{sales.paginator.num_pages}}">Last</a></li>
+          
+        {% endif %}
+      </ul>
+    </nav>
+</div>
+
 {% else %}
 <div class="text-center m-4">No sales Done Yet.</div>
 {% endif %}

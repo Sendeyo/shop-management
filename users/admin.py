@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Debt, Contact
+from .models import Debt, Contact, Log
 # Register your models here.
 
 
@@ -20,5 +20,8 @@ class DebtAdmin(admin.ModelAdmin):
 
 
 
-# admin.site.register(Debt)
+@admin.register(Log)
+class LogAdmin(admin.ModelAdmin):
+    list_display = ("user", "dateTime", "action")
+    list_filter = ("user", "dateTime")
 # admin.site.register(Contact)

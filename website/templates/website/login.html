@@ -1,0 +1,34 @@
+{% extends 'website/extends/base.html' %}
+
+{% block base %}
+
+{% include 'website/includes/alerts.html' %}
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-4 m-auto mt-4">
+        {{ user.group }}
+        <center>
+            <div class="card p-4 m-4 phone">
+                <div class="card-header">
+                    <span class="h6">ERICO ELECTRONICS LOGIN</span>
+                </div>
+                <br>
+                <form class="form-group" method="POST" action="">
+                    {% csrf_token %}
+                    <!-- <input class="form-control" placeholder="USERNAME" type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username">
+                    <br>
+                    <input class="form-control" placeholder="PASSWORD" type="password" name="password" autocomplete="current-password" required id="id_password">
+                    <br>
+                    <button type="submit" class="form-control btn btn-outline-success">LOGIN</button>
+                     -->
+                     {{ form.as_p }}
+                     <button type="submit" class="form-control btn btn-outline-success">LOGIN</button>
+                  </form>
+            </div>
+        </center>
+    </div>
+</div>
+
+
+
+
+{% endblock base %}

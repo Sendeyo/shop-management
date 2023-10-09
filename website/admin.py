@@ -23,7 +23,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Sale)
 class SaleAdmin(admin.ModelAdmin):
     list_display = ("product", "quantity", "priceSold", "paymentMethod", "buyer", "seller", "dateTime", "status")
-    list_filter = ["seller", "status", "paymentMethod"]
+    list_filter = ["seller", "status", "paymentMethod", "dateTime"]
     search_fields = ["product", "buyer"]
     
 
