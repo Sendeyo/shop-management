@@ -198,10 +198,13 @@ def cart(request):
 # Contact Views -----------------------------------------------------<
 @login_required
 def contact(request):
+    contactsDB = Contact.objects.all().order_by("-id")
+    paginator = Paginator(contactsDB, 20)
+    contacts = paginator.get_page(request.GET.get("page"))
     context = {
         "tab":"settings",
         "subtab":"contact",
-        "contacts": Contact.objects.all().order_by("-id")
+        "contacts": contacts,
     }
     return render(request, "website/contacts.html", context)
 
